@@ -1,0 +1,4 @@
+nasm -f bin boot.asm -o boot.bin
+gcc -m32 -ffreestanding -nostdlib -fno-pic -fno-pie  -march=i586 -mfpmath=387 -O3 -o main.o -c main.c
+ld -m elf_i386 -Tlinker.ld --oformat binary -o main.bin main.o
+cat boot.bin main.bin > disk.img
