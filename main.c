@@ -4,15 +4,15 @@ __asm__("jmp _start");
 #define CURVESTEP 4
 #define ITERATIONS 256
 
-#define SCREENWIDTH 320
-#define SCREENHEIGHT 200
-#define SCREENBUFFER 0xA0000
+#define SCREENWIDTH 640
+#define SCREENHEIGHT 480
+//#define SCREENBUFFER 0xA0000
 #define SCREENBUFFERSIZE (SCREENWIDTH*SCREENHEIGHT)
 
 #define INITSIZE (SCREENHEIGHT * 0.25)
 #define INITANIMSPEED 0.001
 #define SCALESPEED 1.004
-#define MOVESPEED 1.0
+#define MOVESPEED (SCREENHEIGHT/200.0)
 #define ANIMSPEEDCHANGE 0.002
 
 #define PI 3.1415926535897932384626433832795
@@ -102,7 +102,7 @@ void _start()
     uint8_t keyState[128] = {0};
     double sinTable[SINTABLEENTRIES];
     uint8_t backBuffer[SCREENBUFFERSIZE];
-    uint8_t* screenBuffer = (uint8_t*)SCREENBUFFER;
+    uint8_t* screenBuffer = (uint8_t*)(*((uint32_t*)(0x8000 + 0x28)));
     setPalette();
     makeSinTable(sinTable);
 

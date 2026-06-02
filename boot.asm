@@ -40,9 +40,14 @@ start:
     mov bx, 0x1000          ; buffer to load into
     int 0x13                ; call bios function
 
-    mov ah, 0x00            ; set video mode function
-    mov al, 0x13            ; selects 320x200 x 256
+    mov ax, 0x4F02          ; VBE function: Set VBE mode
+    mov bx, 0x4101           ; Mode 101h: 640x480x256 colors
     int 0x10                ; call bios function
+
+    mov ax, 0x4F01          ; VBE function 0x4F01: Get Mode Info
+    mov cx, 0x4101           ; Mode 0x101 = 640x480x256
+    mov di, 0x8000          ; Put Mode Info Block at 0000:8000
+    int 0x10
 
     lgdt [gdt_descriptor]   ; load GDT descriptor
     mov eax, cr0
